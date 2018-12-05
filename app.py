@@ -65,13 +65,13 @@ class TodoListForm(FlaskForm):
 
 # TODO 364: Define an UpdateButtonForm class for use to update todo items
 class UpdateButtonForm(FlaskForm):
-    submit = SubmitField("Update Todo Items")
+    submit = SubmitField("Update")
 
 
 # TODO 364: Define a form class for updating the priority of a todolist item
 #(HINT: What class activity you have done before is this similar to?)
 class UpdateTodo(FlaskForm):
-    priority = StringField("Update Todo", validators = [Required()])
+    priority = StringField("What is the new priority of this item?", validators = [Required()])
     submit = SubmitField("Update")
 
 # TODO 364: Define a DeleteButtonForm class for use to delete todo items
@@ -152,7 +152,7 @@ def update(item):
         temp = TodoItem.query.filter_by(id=item).first()
         temp.priority = form.priority.data
         db.session.commit()
-        flash("Updated priority of" + temp.description)
+        flash("Updated priority of " + temp.description)
         return redirect(url_for("all_lists"))
     return render_template("update_item.html", form=form, item_name = item)
 
@@ -171,8 +171,8 @@ def delete(lst):
         todo = TodoList.query.filter_by(id=lst).first()
         db.session.delete(todo)
         db.session.commit()
-        flash("Deleted" + todo.title)
-        return redirect(url_for("all_lists")) # Replace with code
+        flash("Successfully deleted " + todo.title)
+        return redirect(url_for("all_lists")) 
     # This code should successfully delete the appropriate todolist
     # Should flash a message about what was deleted, e.g. Deleted list <title of list>
     # And should redirect the user to the page showing all the todo lists
